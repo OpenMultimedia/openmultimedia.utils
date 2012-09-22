@@ -1,0 +1,10 @@
+Share and Enjoy
+---------------
+
+openmultimedia.utils would not have been possible without the contribution of
+the following people:
+
+- Héctor Velarde
+- Franco Pellegrini
+
+Development sponsored by Open Multimedia.
