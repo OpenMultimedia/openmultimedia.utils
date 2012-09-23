@@ -15,7 +15,6 @@ from openmultimedia.utils.setuphandlers import (
     create_default_section_link,
     create_menu_item,
     create_section,
-    delete_default_content,
     set_one_state_workflow_policy,
     )
 
@@ -51,14 +50,6 @@ class SetupHandlersTestCase(unittest.TestCase):
     def test_run_upgrade_steps(self):
         #run_upgrade_steps()
         self.fail(NotImplemented)
-
-    def test_delete_default_content(self):
-        delete_default_content(self.portal, self.logger)
-        existing_content = self.portal.objectIds()
-        self.assertTrue('events' not in existing_content)
-        self.assertTrue('front-page' not in existing_content)
-        self.assertTrue('news' not in existing_content)
-        self.assertTrue('Member' not in existing_content)
 
     def test_set_one_state_workflow_policy(self):
         self.portal.invokeFactory('Folder', 'test')

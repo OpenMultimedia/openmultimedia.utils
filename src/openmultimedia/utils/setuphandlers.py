@@ -87,17 +87,6 @@ def run_upgrade_steps(context):
             logger.info(msg)
 
 
-def delete_default_content(site, logger):
-    """ Delete content created at Plone's installation.
-    """
-    logger.info("Deleting Plone's default content")
-    default_content = ['Members', 'news', 'events', 'front-page']
-    for item in default_content:
-        if hasattr(site, item):
-            site.manage_delObjects([item])
-            logger.info("%s deleted" % item)
-
-
 def set_one_state_workflow_policy(obj, logger):
     """ Change object's workflow using CMFPlacefulWorkflow.
     """
