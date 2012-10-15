@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-10-15 23:02+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: openmultimedia/utils/views/templates/contents_view.pt:73
+msgid "- Select Content Type -"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:62
+msgid "- Select Creator -"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:40
+msgid "- Select Genre -"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:29
+msgid "- Select Section -"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:51
+msgid "- Select State -"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:40
+msgid "April"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:44
+msgid "August"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:93
+msgid "Author"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:16
+msgid "Contents"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:34
+msgid "Creation Date"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:87
+msgid "Date"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:48
+msgid "December"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:138
+msgid "Delete"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:134
+msgid "Do you really want to delete this folder and all its contents?"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:94
+msgid "Edit"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:38
+msgid "February"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:25
+msgid "Filter"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:20
+msgid "Filter search:"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:37
+msgid "January"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:43
+msgid "July"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:42
+msgid "June"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:39
+msgid "March"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:41
+msgid "May"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:91
+msgid "Media"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:47
+msgid "November"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:46
+msgid "October"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:89
+msgid "Section"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:45
+msgid "September"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:90
+msgid "State"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:33
+#: openmultimedia/utils/views/templates/contents_view.pt:88
+msgid "Title"
+msgstr ""
+
+#: openmultimedia/utils/views/templates/contents_view.pt:92
+msgid "Type"
+msgstr ""
+
+#. Default: "Cancel"
+#: openmultimedia/utils/views/templates/contents_view.pt:145
+msgid "label_cancel"
+msgstr ""
+
+#: openmultimedia/utils/views/contents.py:111
+msgid "of"
+msgstr ""
+

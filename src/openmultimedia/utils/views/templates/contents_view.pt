@@ -1,0 +1,164 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="openmultimedia.utils">
+<body>
+<metal:main fill-slot="main">
+<div id="my-articles" tal:define="brains view/articles">
+    <tal:batch define="Batch view/get_batch;
+                b_start python:request.get('b_start', 0);
+                per_page python:request.get('per_page', 15);
+                batch python:isinstance(brains, Batch) and items or Batch(brains, per_page, int(b_start), orphan=0);">
+    <div class="articles-head">
+        <div i18n:translate="" class="articles-head-title">Contents</div>
+    </div>
+    <div class="form-container">
+        <form method="post" id="contents-filter-form" class="filter-form" tal:attributes="action view/url">
+            <h4 i18n:translate="">Filter search:</h4>
+            <div class="contents-view-field">
+               <input type="text" name="search" />
+            </div>
+            <div class="filter-buttons">
+                <input class="context filter-button" type="submit" value="Filter" i18n:attributes="value" />
+            </div>
+            <div class="contents-view-field">
+                <select name="section" id="select-section">
+                    <option value="all" i18n:translate="">- Select Section -</option>
+                    <tal:status repeat="area view/get_sections">
+                    <option tal:condition="python: view.section == area.value" selected="selected" tal:attributes="value area/value"
+                    tal:content="area/title"/>
+                    <option tal:condition="python: view.section != area.value" tal:attributes="value area/value"
+                    tal:content="area/title"/>
+                    </tal:status>
+                </select>
+            </div>
+            <div class="contents-view-field">
+                <select name="genre" id="select-genre">
+                    <option value="all" i18n:translate="">- Select Genre -</option>
+                    <tal:status repeat="area view/get_genres">
+                    <option tal:condition="python: view.genre == area.value" selected="selected" tal:attributes="value area/value"
+                    tal:content="area/title"/>
+                    <option tal:condition="python: view.genre != area.value" tal:attributes="value area/value"
+                    tal:content="area/title"/>
+                    </tal:status>
+                </select>
+            </div>
+            <div class="contents-view-field">
+                <select name="states" id="select-states" tal:define="states view/get_states">
+                    <option value="all" i18n:translate="">- Select State -</option>
+                    <tal:status repeat="state python:states.keys()">
+                    <option tal:condition="python: view.states == state" selected="selected" i18n:domain="plone" tal:attributes="value state"
+                    tal:content="python: states[state]"/>
+                    <option tal:condition="python: view.states != state" i18n:domain="plone" tal:attributes="value state"
+                    tal:content="python: states[state]"/>
+                    </tal:status>
+                </select>
+            </div>
+            <div class="contents-view-field">
+                <select name="creator" id="select-creator" tal:define="users view/get_user_list">
+                    <option value="all" i18n:translate="">- Select Creator -</option>
+                    <tal:status repeat="user users">
+                    <option tal:condition="python: view.creator == user.value" selected="selected" tal:attributes="value user/value"
+                    tal:content="python: user.title"/>
+                    <option tal:condition="python: view.creator != user.value" i18n:domain="plone" tal:attributes="value user/value"
+                    tal:content="python: user.title"/>
+                    </tal:status>
+                </select>
+            </div>
+            <div class="contents-view-field">
+                <select name="content-type" id="select-content-type" tal:define="contents view/get_contettypes">
+                    <option value="all" i18n:translate="">- Select Content Type -</option>
+                    <tal:status repeat="content_key python: contents.keys()">
+                    <option tal:condition="python: view.content_type == content_key" selected="selected" tal:attributes="value content_key"
+                    tal:content="python: contents[content_key]"/>
+                    <option tal:condition="python: view.content_type != content_key" i18n:domain="plone" tal:attributes="value content_key"
+                    tal:content="python: contents[content_key]"/>
+                    </tal:status>
+                </select>
+            </div>
+        </form>
+    </div>
+    <table class="listing" summary="Listado de contenido">
+        <thead>
+            <tr>
+                <th class="contents-sort nosort" data-sort="date" i18n:translate="">Date</th>
+                <th class="contents-sort nosort" data-sort="title" i18n:translate="">Title</th>
+                <th class="contents-sort nosort" data-sort="section" i18n:translate="">Section</th>
+                <th class="nosort" i18n:translate="">State</th>
+                <th class="nosort" i18n:translate="">Media</th>
+                <th class="nosort" i18n:translate="">Type</th>
+                <th class="contents-sort nosort" i18n:translate="">Author</th>
+                <th class="nosort" i18n:translate="">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tal:items repeat="brain batch">
+                <tr class="odd" tal:define="item brain/getObject" tal:attributes="class python:'even icons-on' if repeat['brain'].index%2==0 else 'odd icons-on'">
+                    <td tal:content="python:view.get_date(item)">
+                    </td>
+                    <td>
+                      <a tal:attributes="href item/absolute_url" tal:content="python:view.get_title(item)" />
+                    </td>
+                    <td tal:content="python:view.get_section(item)">
+                    </td>
+                    <td i18n:domain="plone" i18n:translate="" tal:attributes="class python: 'state-' + view.currentState(item)" tal:content="python:view.get_state(item)">
+                    </td>
+                    <td>
+                        <span tal:condition="python:view.has_images(item)">
+                            <img src="++theme++vtv.web.theme/img/has_image.png" />
+                        </span>
+                        <span tal:condition="python:view.has_videos(item)">
+                            <img src="++theme++vtv.web.theme/img/has_video.png" />
+                        </span>
+                    </td>
+                    <td tal:define="icon_url python:view.get_icon(item)" class="td-icons-content" >
+                        <img tal:attributes="src icon_url;
+                                title item/portal_type; alt item/portal_type;" tal:condition="icon_url" />
+                        <div tal:attributes="class python:'contenttype-'+ view.get_normalized_contettype(item) + ' icons-content'; title item/portal_type" tal:condition="python: not icon_url"/>
+                        <span tal:content="python: view.get_normalized_contettype(item)"/>
+                    </td>
+                    <td >
+                            <span tal:content="python: view.get_fullname(item.Creator())" />    
+                    </td>
+                    <td tal:attributes="id python:view.get_uid(item)">
+                        <a tal:attributes="href python:item.absolute_url() + '/edit'" tal:condition="python:view.can_modify_object(item)">
+                            <img src="++theme++laradiodelsur.web.theme/img/edit_table.png" />
+                        </a>
+                        <a class="delete-element" tal:condition="python:view.can_modify_object(item)">
+                            <img src="++theme++laradiodelsur.web.theme/img/delete_table.png" />
+                        </a>
+                        <div class="delete-item" tal:condition="python:view.can_modify_object(item)">
+                            <div class="delete-item-title" i18n:translate="">
+                                Do you really want to delete this folder and all its contents?
+                            </div>
+                            <div class="delete-item-buttons">
+                        <input class="destructive delete-item-accept"
+                                type="submit"
+                                value="Delete"
+                                tal:attributes="data-url python:item.absolute_url() + '/@@delete-object' + '?delete_id=' + item.getId();
+                                                data-uid python:view.get_uid(item)"
+                                i18n:attributes="value;"
+                                />
+                         <input class="standalone delete-item-cancel"
+                                type="submit"
+                                value="Cancel"
+                                name="form.button.Cancel"
+                                tal:attributes="data-uid python:view.get_uid(item)"
+                                i18n:attributes="value label_cancel"
+                                />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+              </tal:items>
+        </tbody>
+    </table>
+    <div metal:use-macro="context/batch_macros/macros/navigation" />
+</tal:batch>
+</div>
+</metal:main>
+</body>
+</html>
