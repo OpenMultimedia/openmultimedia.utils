@@ -1,0 +1,7 @@
+.contents-view-field {
+    float: left;
+}
+
+#my-articles .delete-item {
+    display: none;
+}

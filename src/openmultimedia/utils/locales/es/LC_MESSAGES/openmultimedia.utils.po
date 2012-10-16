@@ -16,95 +16,95 @@ msgstr ""
 
 #: openmultimedia/utils/views/templates/contents_view.pt:73
 msgid "- Select Content Type -"
-msgstr ""
+msgstr "- Seleccionar Tipo de Contenido -"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:62
 msgid "- Select Creator -"
-msgstr ""
+msgstr "- Seleccionar Creador -"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:40
 msgid "- Select Genre -"
-msgstr ""
+msgstr "- Seleccionar Genero -"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:29
 msgid "- Select Section -"
-msgstr ""
+msgstr "- seleccionar Sección -"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:51
 msgid "- Select State -"
-msgstr ""
+msgstr "- Seleccionar Fecha -"
 
 #: openmultimedia/utils/views/contents.py:40
 msgid "April"
-msgstr ""
+msgstr "Abril"
 
 #: openmultimedia/utils/views/contents.py:44
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:93
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:16
 msgid "Contents"
-msgstr ""
+msgstr "Contenidos"
 
 #: openmultimedia/utils/views/contents.py:34
 msgid "Creation Date"
-msgstr ""
+msgstr "Fecha de Creación"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:87
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: openmultimedia/utils/views/contents.py:48
 msgid "December"
-msgstr ""
+msgstr "Diciembre"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:138
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:134
 msgid "Do you really want to delete this folder and all its contents?"
-msgstr ""
+msgstr "¿Realmente quiere eliminar este elemento y todo su contenido?"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:94
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: openmultimedia/utils/views/contents.py:38
 msgid "February"
-msgstr ""
+msgstr "Febrero"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:25
 msgid "Filter"
-msgstr ""
+msgstr "Filtrar"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:20
 msgid "Filter search:"
-msgstr ""
+msgstr "Filtrat busqueda"
 
 #: openmultimedia/utils/views/contents.py:37
 msgid "January"
-msgstr ""
+msgstr "Enero"
 
 #: openmultimedia/utils/views/contents.py:43
 msgid "July"
-msgstr ""
+msgstr "Julio"
 
 #: openmultimedia/utils/views/contents.py:42
 msgid "June"
-msgstr ""
+msgstr "Junio"
 
 #: openmultimedia/utils/views/contents.py:39
 msgid "March"
-msgstr ""
+msgstr "Marzo"
 
 #: openmultimedia/utils/views/contents.py:41
 msgid "May"
-msgstr ""
+msgstr "Mayo"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:91
 msgid "Media"
@@ -112,39 +112,38 @@ msgstr ""
 
 #: openmultimedia/utils/views/contents.py:47
 msgid "November"
-msgstr ""
+msgstr "Noviembre"
 
 #: openmultimedia/utils/views/contents.py:46
 msgid "October"
-msgstr ""
+msgstr "Octubre"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:89
 msgid "Section"
-msgstr ""
+msgstr "Sección"
 
 #: openmultimedia/utils/views/contents.py:45
 msgid "September"
-msgstr ""
+msgstr "Septiembre"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:90
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #: openmultimedia/utils/views/contents.py:33
 #: openmultimedia/utils/views/templates/contents_view.pt:88
 msgid "Title"
-msgstr ""
+msgstr "Titulo"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:92
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #. Default: "Cancel"
 #: openmultimedia/utils/views/templates/contents_view.pt:145
 msgid "label_cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: openmultimedia/utils/views/contents.py:111
 msgid "of"
-msgstr ""
-
+msgstr "de"
