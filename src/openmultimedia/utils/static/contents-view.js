@@ -55,7 +55,21 @@ function delete_element() {
 function sortContent() {
     $(".contents-sort").click(function() {
         var data = $(this).attr("data-sort");
-        console.log(data);
+        
+        var direction = undefined
+        if($(this).hasClass("up")) {
+            direction = "down"
+            $(this).removeClass("up");
+        } else if ($(this).hasClass("down")) {
+            direction = "up"
+            $(this).removeClass("down");
+        } else {
+            direction = "up"
+        }
+        $(this).addClass(direction);
+        $("#order").val(data);
+        $("#order-direction").val(direction);
+        $('#contents-filter-form').submit();
     });
 }
 

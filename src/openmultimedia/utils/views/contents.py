@@ -66,6 +66,12 @@ class MyContentsView(grok.View):
         self.search = self.request.get('search', None)
         self.creator = self.request.get('creator', None)
         self.content_type = self.request.get('content-type', None)
+        self.order = self.request.get('order', None)
+        if self.order == "None":
+            self.order = None
+        self.order_direction = self.request.get('order-direction', None)
+        if self.order_direction == "None":
+            self.order_direction = None
         if self.filters:
             self.articles = self.get_contents(self.filters)
         else:
@@ -96,6 +102,16 @@ class MyContentsView(grok.View):
             query['portal_type'] = self.content_type
         if self.search:
             query['SearchableText'] = self.search
+        if self.order:
+            if self.order == 'date':
+                query['sort_on'] = 'Date'
+            elif self.order == 'title':
+                query['sort_on'] = 'sortable_title' 
+        if self.order_direction:
+            if self.order_direction == "up":
+                query['sort_order'] = "ascending"
+            else:
+                query['sort_order'] = "descending"
         result = catalog(query)
         return result
 

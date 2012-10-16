@@ -79,18 +79,24 @@
                     </tal:status>
                 </select>
             </div>
+            <input type="hidden" id="order" name="order" value="None" />
+            <input type="hidden"id="order-direction" name="order-direction" value="None" />
         </form>
     </div>
     <table class="listing" summary="Listado de contenido">
         <thead>
             <tr>
-                <th class="contents-sort nosort" data-sort="date" i18n:translate="">Date</th>
-                <th class="contents-sort nosort" data-sort="title" i18n:translate="">Title</th>
-                <th class="contents-sort nosort" data-sort="section" i18n:translate="">Section</th>
+                <th class="contents-sort nosort" data-sort="date" i18n:translate="" tal:condition="python:view.order == 'date'"
+                tal:attributes="class python:'contents-sort nosort up' if view.order_direction == 'up' else 'contents-sort nosort down'">Date</th>
+                <th class="contents-sort nosort" data-sort="date" i18n:translate="" tal:condition="python:view.order != 'date'">Date</th>
+                <th class="contents-sort nosort" data-sort="title" i18n:translate="" tal:condition="python:view.order == 'title'"
+                tal:attributes="class python:'contents-sort nosort up' if view.order_direction == 'up' else 'contents-sort nosort down'">Title</th>
+                <th class="contents-sort nosort" data-sort="title" i18n:translate="" tal:condition="python:view.order != 'title'">title</th>
+                <th class="nosort" i18n:translate="">Section</th>
                 <th class="nosort" i18n:translate="">State</th>
                 <th class="nosort" i18n:translate="">Media</th>
                 <th class="nosort" i18n:translate="">Type</th>
-                <th class="contents-sort nosort" i18n:translate="">Author</th>
+                <th class="nosort" i18n:translate="">Author</th>
                 <th class="nosort" i18n:translate="">Edit</th>
             </tr>
         </thead>

@@ -5,3 +5,15 @@
 #my-articles .delete-item {
     display: none;
 }
+
+.contents-sort {
+    cursor: pointer;
+}
+
+.contents-sort.up {
+    background: url("++resource++openmultimedia.utils/up.png") no-repeat scroll right center #DDDDDD;
+}
+
+.contents-sort.down {
+    background: url("++resource++openmultimedia.utils/down.png") no-repeat scroll right center #DDDDDD;
+}
