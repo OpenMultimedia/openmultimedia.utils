@@ -2,6 +2,7 @@ import json
 
 from AccessControl import Unauthorized, getSecurityManager
 
+from zope.security import checkPermission
 from zope.i18n import translate
 from zope.component import queryUtility, getMultiAdapter
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
@@ -79,6 +80,9 @@ class MyContentsView(grok.View):
     
     def url(self):
         return self.context.absolute_url() + "/contents_view"
+    
+    def is_editor(self):
+       return self._checkPermInFolder("zope2.ViewManagementScreens")
 
     def get_contents(self, filters=None):
         collectionobj = self.context
@@ -96,8 +100,11 @@ class MyContentsView(grok.View):
             query['section'] = self.section
         if self.genre and self.genre != 'all':
             query['genre'] = self.genre
-        if self.creator and self.creator != 'all':
+        if self.creator and self.creator != 'all' and self.is_editor():
             query['Creator'] = self.creator
+        if not self.is_editor():
+            user = self.context.portal_membership.getAuthenticatedMember().id
+            query['Creator'] = user
         if self.content_type and self.content_type != 'all':
             query['portal_type'] = self.content_type
         if self.search:
@@ -304,6 +311,22 @@ class MyContentsView(grok.View):
     def get_user_list(self):
         source = UsersVocabularyFactory(self.context)
         return source
+    
+    def _checkPermInFolder(self, perm, folder_id=None):
+        portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        if folder_id:
+            try:
+                folder = portal[folder_id]
+            except KeyError:
+                folder = None
+        else:
+            folder = portal
+        if folder:
+            can_add = checkPermission(perm, folder)
+        else:
+            can_add = False
+
+        return can_add
 
 class DeleteButton(grok.View):
     grok.context(Interface)

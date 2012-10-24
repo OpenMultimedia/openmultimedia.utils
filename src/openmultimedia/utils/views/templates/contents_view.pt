@@ -57,7 +57,7 @@
                     </tal:status>
                 </select>
             </div>
-            <div class="contents-view-field">
+            <div class="contents-view-field" tal:condition="view/is_editor">
                 <select name="creator" id="select-creator" tal:define="users view/get_user_list">
                     <option value="all" i18n:translate="">- Select Creator -</option>
                     <tal:status repeat="user users">
