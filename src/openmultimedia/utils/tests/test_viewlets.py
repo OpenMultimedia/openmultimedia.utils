@@ -38,7 +38,7 @@ class FooterViewletTest(unittest.TestCase):
         self.folder.invokeFactory('Folder', 'subfolder1', title='Sub Folder 1')
         self.folder.invokeFactory('Folder', 'subfolder2', title='Sub Folder 2')
         
-    def test_get_en_vivo_url(self):
+    def test_footer_structure(self):
         view = OpenMultimediaFooter(self.portal, self.request, None, None)
         sections = view.get_footer_section()
         self.assertTrue(len(sections) == 3)
