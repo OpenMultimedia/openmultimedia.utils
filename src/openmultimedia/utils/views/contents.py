@@ -137,10 +137,7 @@ class MyContentsView(grok.View):
         year = date.strftime("%Y")
         hour = date.strftime("%H")
         minutes = date.strftime("%M")
-        return "%s %s %s %s %s, %s:%s" % (day, 
-            translate(sep, context=self.request), 
-            translate(MONTHS_DICT[month], context=self.request), 
-            translate(sep, context=self.request), year, hour, minutes)
+        return "%s/%s/%s, %s:%s" % (day, month, year, hour, minutes)
         
     def get_section(self, obj):
         section = ""

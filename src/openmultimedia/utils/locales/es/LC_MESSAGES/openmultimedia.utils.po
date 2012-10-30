@@ -32,7 +32,7 @@ msgstr "- seleccionar Sección -"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:51
 msgid "- Select State -"
-msgstr "- Seleccionar Fecha -"
+msgstr "- Seleccionar Estado -"
 
 #: openmultimedia/utils/views/contents.py:40
 msgid "April"

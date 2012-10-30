@@ -50,10 +50,10 @@
                 <select name="states" id="select-states" tal:define="states view/get_states">
                     <option value="all" i18n:translate="">- Select State -</option>
                     <tal:status repeat="state python:states.keys()">
-                    <option tal:condition="python: view.states == state" selected="selected" i18n:domain="plone" tal:attributes="value state"
-                    tal:content="python: states[state]"/>
-                    <option tal:condition="python: view.states != state" i18n:domain="plone" tal:attributes="value state"
-                    tal:content="python: states[state]"/>
+                    <option tal:condition="python: view.states == state" selected="selected" i18n:domain="plone" i18n:translate="" tal:attributes="value state"
+                    tal:content="python: states[state]"></option>
+                    <option tal:condition="python: view.states != state" i18n:domain="plone" i18n:translate="" tal:attributes="value state"
+                    tal:content="python: states[state]"></option>
                     </tal:status>
                 </select>
             </div>
@@ -72,9 +72,9 @@
                 <select name="content-type" id="select-content-type" tal:define="contents view/get_contettypes">
                     <option value="all" i18n:translate="">- Select Content Type -</option>
                     <tal:status repeat="content_key python: contents.keys()">
-                    <option tal:condition="python: view.content_type == content_key" selected="selected" tal:attributes="value content_key"
+                    <option tal:condition="python: view.content_type == content_key" selected="selected" i18n:domain="plone" i18n:translate="" tal:attributes="value content_key"
                     tal:content="python: contents[content_key]"/>
-                    <option tal:condition="python: view.content_type != content_key" i18n:domain="plone" tal:attributes="value content_key"
+                    <option tal:condition="python: view.content_type != content_key" i18n:domain="plone" i18n:translate="" tal:attributes="value content_key"
                     tal:content="python: contents[content_key]"/>
                     </tal:status>
                 </select>
@@ -123,8 +123,8 @@
                     <td tal:define="icon_url python:view.get_icon(item)" class="td-icons-content" >
                         <img tal:attributes="src icon_url;
                                 title item/portal_type; alt item/portal_type;" tal:condition="icon_url" />
-                        <div tal:attributes="class python:'contenttype-'+ view.get_normalized_contettype(item) + ' icons-content'; title item/portal_type" tal:condition="python: not icon_url"/>
-                        <span tal:content="python: view.get_normalized_contettype(item)"/>
+                        <div tal:attributes="class python:'contenttype-'+ view.get_normalized_contettype(item) + ' icons-content'; title item/portal_type" i18n:domain="plone" i18n:translate="" tal:condition="python: not icon_url"/>
+                        <span i18n:domain="plone" i18n:translate="" tal:content="python: view.get_normalized_contettype(item)"/>
                     </td>
                     <td >
                             <span tal:content="python: view.get_fullname(item.Creator())" />    
