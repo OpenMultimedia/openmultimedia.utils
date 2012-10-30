@@ -1,0 +1,18 @@
+<div class="visible-desktop" id="openmultimedia-sections-footer">
+    <tal:sections repeat="item viewlet/get_footer_section">
+    <div class="block" tal:condition="python: len(item)>1 and len(item[0])>1">
+        <ul class="footer-section">
+            <li class="footer-header">
+                <a href="#" tal:content="python:item[0][0]"
+                            tal:attributes="href python:item[0][1]">Noticias</a>
+            </li>
+            <tal:subsections tal:repeat="sub python:item[1]">
+            <li tal:condition="python: len(sub)>1">
+                <a href="#" tal:content="python:sub[0]"
+                            tal:attributes="href python:sub[1]">Nacionales</a>
+            </li>
+            </tal:subsections>
+        </ul>
+    </div>
+</tal:sections>
+</div>
