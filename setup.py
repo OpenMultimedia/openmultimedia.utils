@@ -45,9 +45,10 @@ setup(name='openmultimedia.utils',
         'loremipsum',
         'Products.CMFPlone>=4.2',
         'five.grok',
-        'plone.app.jquery==1.7.2',
+        'plone.app.jquery',
         'plone.principalsource',
-        'collective.nitf'
+        # FIXME: dependency is broken
+        #'collective.nitf'
         ],
       extras_require={
         'test': ['plone.app.testing']
