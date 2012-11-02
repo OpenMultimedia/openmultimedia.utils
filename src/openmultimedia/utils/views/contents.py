@@ -21,7 +21,8 @@ from Products.ATContentTypes.interfaces import IATImage
 
 from plone.principalsource.source import UsersVocabularyFactory
 
-from collective.nitf.vocabulary import SectionsVocabulary, AvailableGenresVocabulary
+from collective.nitf.vocabulary import AvailableGenresVocabulary
+from collective.nitf.vocabulary import SectionsVocabulary
 
 from openmultimedia.contenttypes.content.video import IVideo
 
