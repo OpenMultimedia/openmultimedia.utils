@@ -16,7 +16,7 @@ msgstr ""
 
 #: openmultimedia/utils/views/templates/contents_view.pt:73
 msgid "- Select Content Type -"
-msgstr "- Selecionar Tipo de ontenido -"
+msgstr "- Selecionar Tipo de Contenido -"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:62
 msgid "- Seleccionar Creador -"

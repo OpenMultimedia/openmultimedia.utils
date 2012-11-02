@@ -25,23 +25,23 @@
                 <input class="context filter-button" type="submit" value="Filter" i18n:attributes="value" />
             </div>
             <div class="contents-view-field">
-                <select name="section" id="select-section">
-                    <option value="all" i18n:translate="">- Select Section -</option>
-                    <tal:status repeat="area view/get_sections">
-                    <option tal:condition="python: view.section == area.value" selected="selected" tal:attributes="value area/value"
-                    tal:content="area/title"/>
-                    <option tal:condition="python: view.section != area.value" tal:attributes="value area/value"
-                    tal:content="area/title"/>
-                    </tal:status>
-                </select>
-            </div>
-            <div class="contents-view-field">
                 <select name="genre" id="select-genre">
                     <option value="all" i18n:translate="">- Select Genre -</option>
                     <tal:status repeat="area view/get_genres">
                     <option tal:condition="python: view.genre == area.value" selected="selected" tal:attributes="value area/value"
                     tal:content="area/title"/>
                     <option tal:condition="python: view.genre != area.value" tal:attributes="value area/value"
+                    tal:content="area/title"/>
+                    </tal:status>
+                </select>
+            </div>
+            <div class="contents-view-field">
+                <select name="section" id="select-section">
+                    <option value="all" i18n:translate="">- Select Section -</option>
+                    <tal:status repeat="area view/get_sections">
+                    <option tal:condition="python: view.section == area.value" selected="selected" tal:attributes="value area/value"
+                    tal:content="area/title"/>
+                    <option tal:condition="python: view.section != area.value" tal:attributes="value area/value"
                     tal:content="area/title"/>
                     </tal:status>
                 </select>
@@ -57,17 +57,6 @@
                     </tal:status>
                 </select>
             </div>
-            <div class="contents-view-field" tal:condition="view/is_editor">
-                <select name="creator" id="select-creator" tal:define="users view/get_user_list">
-                    <option value="all" i18n:translate="">- Select Creator -</option>
-                    <tal:status repeat="user users">
-                    <option tal:condition="python: view.creator == user.value" selected="selected" tal:attributes="value user/value"
-                    tal:content="python: user.title"/>
-                    <option tal:condition="python: view.creator != user.value" i18n:domain="plone" tal:attributes="value user/value"
-                    tal:content="python: user.title"/>
-                    </tal:status>
-                </select>
-            </div>
             <div class="contents-view-field">
                 <select name="content-type" id="select-content-type" tal:define="contents view/get_contettypes">
                     <option value="all" i18n:translate="">- Select Content Type -</option>
@@ -79,6 +68,18 @@
                     </tal:status>
                 </select>
             </div>
+            <div class="contents-view-field" tal:condition="view/is_editor">
+                <select name="creator" id="select-creator" tal:define="users view/get_user_list">
+                    <option value="all" i18n:translate="">- Select Creator -</option>
+                    <tal:status repeat="user users">
+                    <option tal:condition="python: view.creator == user.value" selected="selected" tal:attributes="value user/value"
+                    tal:content="python: user.title"/>
+                    <option tal:condition="python: view.creator != user.value" i18n:domain="plone" tal:attributes="value user/value"
+                    tal:content="python: user.title"/>
+                    </tal:status>
+                </select>
+            </div>
+            
             <input type="hidden" id="order" name="order" value="None" />
             <input type="hidden"id="order-direction" name="order-direction" value="None" />
         </form>
@@ -114,10 +115,10 @@
                     </td>
                     <td>
                         <span tal:condition="python:view.has_images(item)">
-                            <img src="++theme++vtv.web.theme/img/has_image.png" />
+                            <img src="++resource++openmultimedia.utils/has_image.png" />
                         </span>
                         <span tal:condition="python:view.has_videos(item)">
-                            <img src="++theme++vtv.web.theme/img/has_video.png" />
+                            <img src="++resource++openmultimedia.utils/has_video.png" />
                         </span>
                     </td>
                     <td tal:define="icon_url python:view.get_icon(item)" class="td-icons-content" >
@@ -131,10 +132,10 @@
                     </td>
                     <td tal:attributes="id python:view.get_uid(item)">
                         <a tal:attributes="href python:item.absolute_url() + '/edit'" tal:condition="python:view.can_modify_object(item)">
-                            <img src="++theme++laradiodelsur.web.theme/img/edit_table.png" />
+                            <img src="++resource++openmultimedia.utils/edit_table.png" />
                         </a>
                         <a class="delete-element" tal:condition="python:view.can_modify_object(item)">
-                            <img src="++theme++laradiodelsur.web.theme/img/delete_table.png" />
+                            <img src="++resource++openmultimedia.utils/delete_table.png" />
                         </a>
                         <div class="delete-item" tal:condition="python:view.can_modify_object(item)">
                             <div class="delete-item-title" i18n:translate="">

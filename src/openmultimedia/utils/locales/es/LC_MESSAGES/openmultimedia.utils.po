@@ -84,7 +84,7 @@ msgstr "Filtrar"
 
 #: openmultimedia/utils/views/templates/contents_view.pt:20
 msgid "Filter search:"
-msgstr "Filtrat busqueda"
+msgstr "Filtrar búsqueda"
 
 #: openmultimedia/utils/views/contents.py:37
 msgid "January"
