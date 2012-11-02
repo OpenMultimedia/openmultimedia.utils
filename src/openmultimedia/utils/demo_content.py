@@ -15,7 +15,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.i18n.normalizer import idnormalizer
 
-from laradiodelsur.web.policy.config import PROJECTNAME
+from openmultimedia.utils.config import PROJECTNAME
 
 logger = logging.getLogger(PROJECTNAME)
 
