@@ -3,7 +3,6 @@ import json
 from AccessControl import Unauthorized, getSecurityManager
 
 from zope.security import checkPermission
-from zope.i18n import translate
 from zope.component import queryUtility, getMultiAdapter
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import Interface
@@ -46,8 +45,9 @@ MONTHS_DICT = {
     '09': _(u'September'),
     '10': _(u'October'),
     '11': _(u'November'),
-    '12':_(u'December'),
+    '12': _(u'December'),
 }
+
 
 class MyContentsView(grok.View):
     grok.context(ICollection)
@@ -77,12 +77,12 @@ class MyContentsView(grok.View):
             self.articles = self.get_contents(self.filters)
         else:
             self.articles = self.get_contents()
-    
+
     def url(self):
         return self.context.absolute_url() + "/contents_view"
-    
+
     def is_editor(self):
-       return self._checkPermInFolder("zope2.ViewManagementScreens")
+        return self._checkPermInFolder("zope2.ViewManagementScreens")
 
     def get_contents(self, filters=None):
         collectionobj = self.context
@@ -113,7 +113,7 @@ class MyContentsView(grok.View):
             if self.order == 'date':
                 query['sort_on'] = 'Date'
             elif self.order == 'title':
-                query['sort_on'] = 'sortable_title' 
+                query['sort_on'] = 'sortable_title'
         if self.order_direction:
             if self.order_direction == "up":
                 query['sort_order'] = "ascending"
@@ -124,31 +124,30 @@ class MyContentsView(grok.View):
 
     def get_date(self, obj):
         date = ""
-        if hasattr(obj,'effective') and self.get_state == 'published':
+        if hasattr(obj, 'effective') and self.get_state == 'published':
             date = obj.effective()
-        elif hasattr(obj,'created'):
+        elif hasattr(obj, 'created'):
             date = obj.created()
         return self.format_date(date)
 
     def format_date(self, date):
-        sep = _(u"of")
         day = date.strftime("%d")
         month = date.strftime("%m")
         year = date.strftime("%Y")
         hour = date.strftime("%H")
         minutes = date.strftime("%M")
         return "%s/%s/%s, %s:%s" % (day, month, year, hour, minutes)
-        
+
     def get_section(self, obj):
         section = ""
         if hasattr(obj, 'section'):
             section = obj.section
         return section
-    
+
     def get_icon(self, obj):
         url = obj.getIconURL()
         return url
-    
+
     def get_normalized_contettype(self, obj):
         idnormalizer = queryUtility(IIDNormalizer)
         portal_types = getToolByName(self.context, "portal_types")
@@ -234,7 +233,7 @@ class MyContentsView(grok.View):
 
     def get_order_vocab(self):
         return order_by_vocab
-    
+
     def currentStateTitle(self, obj):
         context_state = getMultiAdapter((obj, self.request), name='plone_context_state')
         tools = getMultiAdapter((obj, self.request), name='plone_tools')
@@ -242,7 +241,7 @@ class MyContentsView(grok.View):
         workflows = tools.workflow().getWorkflowsFor(obj)
         if workflows and state:
             for w in workflows:
-                if w.states.has_key(state):
+                if state in w.states:
                     return w.states[state].title or state
         return ""
 
@@ -253,20 +252,20 @@ class MyContentsView(grok.View):
         if state:
             result = state
         return result
-    
+
     def can_modify_object(self, obj):
         return getSecurityManager().checkPermission(
             permissions.ModifyPortalContent, obj)
-    
+
     def get_uid(self, obj):
         return IUUID(obj, None)
-    
+
     def get_sections(self):
         return SectionsVocabulary()(self.context)
-    
+
     def get_genres(self):
         return AvailableGenresVocabulary()(self.context)
-    
+
     def get_states(self):
         collectionobj = self.context
         states = {}
@@ -281,7 +280,7 @@ class MyContentsView(grok.View):
                     for state in wkf_states_obj.keys():
                         states[state] = wkf_states_obj[state].title or state
         return states
-    
+
     def get_contettypes(self):
         collectionobj = self.context
         contents = {}
@@ -304,11 +303,11 @@ class MyContentsView(grok.View):
             if fullname:
                 return fullname
         return user_id
-    
+
     def get_user_list(self):
         source = UsersVocabularyFactory(self.context)
         return source
-    
+
     def _checkPermInFolder(self, perm, folder_id=None):
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
         if folder_id:
@@ -324,6 +323,7 @@ class MyContentsView(grok.View):
             can_add = False
 
         return can_add
+
 
 class DeleteButton(grok.View):
     grok.context(Interface)

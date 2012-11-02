@@ -3,20 +3,14 @@
 import unittest2 as unittest
 
 
-from zope.component import queryMultiAdapter, getMultiAdapter
-from zope.interface import directlyProvides
-
-from Products.CMFCore.utils import getToolByName
-
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.app.querystring import queryparser
 from plone.testing.z2 import Browser
 
 from openmultimedia.utils.viewlets import OpenMultimediaFooter
 
-from openmultimedia.utils.testing import INTEGRATION_TESTING, FUNCTIONAL_TESTING, \
-        browserLogin
+from openmultimedia.utils.testing import INTEGRATION_TESTING
+from openmultimedia.utils.testing import FUNCTIONAL_TESTING
 
 
 class FooterViewletTest(unittest.TestCase):
@@ -37,7 +31,7 @@ class FooterViewletTest(unittest.TestCase):
         #subfolders
         self.folder.invokeFactory('Folder', 'subfolder1', title='Sub Folder 1')
         self.folder.invokeFactory('Folder', 'subfolder2', title='Sub Folder 2')
-        
+
     def test_footer_structure(self):
         view = OpenMultimediaFooter(self.portal, self.request, None, None)
         sections = view.get_footer_section()
@@ -57,7 +51,6 @@ class FooterViewletTest(unittest.TestCase):
         self.assertTrue(sections[0][1][1][0] == 'Sub Folder 2')
 
 
-
 class FooterFunctionalTest(unittest.TestCase):
 
     layer = FUNCTIONAL_TESTING
@@ -72,6 +65,3 @@ class FooterFunctionalTest(unittest.TestCase):
     def test_live_signal_url(self):
         self.browser.open(self.portal.absolute_url())
         self.assertTrue('openmultimedia-sections-footer' in self.browser.contents)
-        
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

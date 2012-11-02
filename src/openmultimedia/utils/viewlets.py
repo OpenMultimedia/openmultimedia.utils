@@ -14,6 +14,7 @@ from Products.CMFCore.utils import getToolByName
 
 grok.templatedir("viewlets")
 
+
 class OpenMultimediaFooter(grok.Viewlet):
     grok.context(Interface)
 

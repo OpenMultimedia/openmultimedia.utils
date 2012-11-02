@@ -2,6 +2,8 @@
 
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
 
@@ -35,6 +37,7 @@ FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE,),
     name='openmultimedia.utils:Functional',
     )
+
 
 def browserLogin(portal, browser, username=None, password=None):
     handleErrors = browser.handleErrors
