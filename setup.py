@@ -42,10 +42,12 @@ setup(name='openmultimedia.utils',
       zip_safe=False,
       install_requires=[
         'setuptools',
+        'loremipsum',
         'Products.CMFPlone>=4.2',
         'five.grok',
         'plone.app.jquery==1.7.2',
         'plone.principalsource',
+        'collective.nitf'
         ],
       extras_require={
         'test': ['plone.app.testing']
