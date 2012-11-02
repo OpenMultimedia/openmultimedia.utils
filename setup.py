@@ -47,8 +47,8 @@ setup(name='openmultimedia.utils',
         'five.grok',
         'plone.app.jquery',
         'plone.principalsource',
-        # FIXME: dependency is broken
-        #'collective.nitf'
+        'collective.nitf',
+        'openmultimedia.contenttypes',
         ],
       extras_require={
         'test': ['plone.app.testing']

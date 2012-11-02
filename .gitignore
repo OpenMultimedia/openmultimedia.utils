@@ -14,4 +14,8 @@ include/
 lib/
 local/
 parts/
+src/collective.nitf/
+src/collective.z3cform.widgets/
+src/openmultimedia.api/
+src/openmultimedia.contenttypes/
 var/
