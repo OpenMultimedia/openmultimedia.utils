@@ -14,5 +14,5 @@ install: prerequisites
 
 tests:
 	bin/test
-	pyflakes src/
-	pep8 --ignore=$(pep8_ignores) src/
+	pyflakes src/openmultimedia/utils/
+	pep8 --ignore=$(pep8_ignores) src/openmultimedia/utils/
