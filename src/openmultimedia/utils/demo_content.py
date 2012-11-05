@@ -147,10 +147,10 @@ def generate(context):
     folder = portal['articulos']
     for i in range(20):
         generate_articles(folder)
-    logger.info("A batch of 20 articles, with 4 images inside each one, was"
+    logger.info("A batch of 20 articles, with 4 images inside each one, was "
                 "generated and published")
 
     for i in range(5):
         generate_galeries(folder)
-    logger.info("A batch of 5 galleries, with 10 images inside each one, was"
+    logger.info("A batch of 5 galleries, with 10 images inside each one, was "
                 "generated and published")
