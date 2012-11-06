@@ -61,7 +61,7 @@ def apply_initial_profile(context, logger):
 def run_upgrade_steps(context):
     """ Run Upgrade steps
     """
-    if context.readDataFile('vtv.web.policy-default.txt') is None:
+    if context.readDataFile('%s_various.txt' % PROJECTNAME) is None:
         return
     logger = logging.getLogger(PROJECTNAME)
     site = context.getSite()
