@@ -106,7 +106,7 @@ def create_menu_item(context,
     modifica la política de workflow del contenido creado dentro de ella.
     """
     oid = idnormalizer.normalize(title, 'es')
-    if not hasattr(context, oid):
+    if not hasattr(context.aq_explicit, oid):  # XXX: avoid acquisition
         context.invokeFactory('Folder', id=oid, title=title)
         folder = context[oid]
         folder.setConstrainTypesMode(constraintypes.ENABLED)
