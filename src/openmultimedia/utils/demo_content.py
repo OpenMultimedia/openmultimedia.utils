@@ -6,6 +6,7 @@
 import logging
 import loremipsum
 import random
+import string
 import urllib2
 
 from zope.component import getUtility
@@ -20,8 +21,12 @@ from openmultimedia.utils.config import PROJECTNAME
 logger = logging.getLogger(PROJECTNAME)
 
 
-def generate_sentence():
-    return loremipsum.Generator().generate_sentence()[-1]
+def generate_sentence(replace_dots=False):
+    g = loremipsum.Generator()
+    if replace_dots:
+        return string.replace(g.generate_sentence()[-1], '.', '')
+    else:
+        return g.generate_sentence()[-1]
 
 
 def generate_sentences(length=10):
@@ -68,22 +73,23 @@ def generate_articles(context, num=4):
     byline; a body text (made of 5 paragraphs); it will be classified with
     a random genre and section; and it will contain 4 random images.
     """
-    title = generate_sentence()
+    title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
     context.invokeFactory('collective.nitf.content', id=oid, title=title)
     article = context[oid]
     article.description = generate_sentences(3)
-    article.subtitle = generate_sentence()
-    article.byline = generate_sentence()
+    article.subtitle = generate_sentence(replace_dots=True)
+    article.byline = generate_sentence(replace_dots=True)
     article.text = generate_text()
     article.genre = random_genre(context)
     article.section = random_section(context)
-    article.location = generate_sentence()
+    article.location = generate_sentence(replace_dots=True)
 
-    logger.debug("News Article '%s' created" % title)
+    logger.debug("News Article '%s' created in section '%s' with genre '%s'" %
+                 (title, article.section, article.genre))
 
     for i in range(num):
-        title = generate_sentence()
+        title = generate_sentence(replace_dots=True)
         oid = idnormalizer.normalize(title, 'es')
         description = generate_sentences(2)
         image = generate_image(1024, 1024)
@@ -110,7 +116,7 @@ def generate_galeries(context, num=10):
     byline; a body text (made of 5 paragraphs); it will be classified with
     a random genre and section; and it will contain 4 random images.
     """
-    title = generate_sentence()
+    title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
     context.invokeFactory('openmultimedia.contenttypes.gallery', id=oid,
                           title=title)
@@ -119,10 +125,11 @@ def generate_galeries(context, num=10):
     gallery.text = generate_text(1)
     gallery.section = random_section(context)
 
-    logger.debug("Gallery '%s' created" % title)
+    logger.debug("Gallery '%s' created in section '%s'" %
+                 (title, gallery.section))
 
     for i in range(num):
-        title = generate_sentence()
+        title = generate_sentence(replace_dots=True)
         oid = idnormalizer.normalize(title, 'es')
         description = generate_sentences(2)
         image = generate_image(1024, 1024)
