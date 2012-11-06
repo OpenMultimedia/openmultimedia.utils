@@ -133,8 +133,6 @@ def create_section(folder,
     """
     workflowTool = getToolByName(folder, 'portal_workflow')
     oid = idnormalizer.normalize(title, 'es')
-    # HACK: existe una carpeta llamada Artículos y no queremos conflictos con
-    # la adquisición por eso usamos folder.aq_explicit
     if not hasattr(folder.aq_explicit, oid):
         folder.invokeFactory('Collection', id=oid, title=title)
         collection = folder[oid]
@@ -177,7 +175,7 @@ def create_section(folder,
         # reindexamos para que el catálogo se entere de los cambios
         collection.reindexObject()
 
-    if hasattr(folder.aq_explicit, oid):
+    if hasattr(folder.aq_explicit, oid):  # XXX: avoid acquisition
         collection = folder[oid]
         default_view = 'section_view'
         collection.setLayout(default_view)
