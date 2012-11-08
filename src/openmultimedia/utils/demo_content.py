@@ -20,6 +20,9 @@ from openmultimedia.utils.config import PROJECTNAME
 
 logger = logging.getLogger(PROJECTNAME)
 
+IMAGE_WIDTH = 1024
+IMAGE_HEIGHT = 768
+
 
 def generate_sentence(replace_dots=False):
     g = loremipsum.Generator()
@@ -92,7 +95,7 @@ def generate_articles(context, num=4):
         title = generate_sentence(replace_dots=True)
         oid = idnormalizer.normalize(title, 'es')
         description = generate_sentences(2)
-        image = generate_image(1024, 1024)
+        image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
         article.invokeFactory('Image', id=oid, title=title,
                               description=description, image=image)
 
@@ -132,7 +135,7 @@ def generate_galeries(context, num=10):
         title = generate_sentence(replace_dots=True)
         oid = idnormalizer.normalize(title, 'es')
         description = generate_sentences(2)
-        image = generate_image(1024, 1024)
+        image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
         gallery.invokeFactory('Image', id=oid, title=title,
                               description=description, image=image)
 
