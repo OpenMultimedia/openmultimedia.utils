@@ -150,7 +150,7 @@ def generate_galeries(context, num=10):
 
 
 def generate(context):
-    if context.readDataFile('laradiodelsur.web.policy-demo.txt') is None:
+    if context.readDataFile('openmultimedia.utils-demo.txt') is None:
         return
 
     portal = context.getSite()
