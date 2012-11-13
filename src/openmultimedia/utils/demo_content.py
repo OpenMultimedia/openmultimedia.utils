@@ -70,15 +70,33 @@ def random_section(context):
     return v[i]
 
 
-def generate_articles(context, num=4):
+def create_image(context):
+    title = generate_sentence(replace_dots=True)
+    oid = idnormalizer.normalize(title, 'es')
+    description = generate_sentences(2)
+    image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
+    try:
+        context.invokeFactory('Image', id=oid, title=title,
+                              description=description, image=image)
+    except:
+        logger.info("An error occurred while creating the image '%s'" % oid)
+        return
+
+
+def create_article(context, images=4):
     """ Creates a News Article with a number of images on it. The News Article
-    will have a title; a subtitle; a resume (made of 3 sentences); a
-    byline; a body text (made of 5 paragraphs); it will be classified with
-    a random genre and section; and it will contain 4 random images.
+    will have a title; a subtitle; a resume (made of 3 sentences); a byline; a
+    a body text (made of 5 paragraphs); it will be classified with a random
+    genre and section; by default and it will contain 4 random images.
     """
     title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
-    context.invokeFactory('collective.nitf.content', id=oid, title=title)
+    try:
+        context.invokeFactory('collective.nitf.content', id=oid, title=title)
+    except:
+        logger.info("An error occurred while creating the object '%s'" % oid)
+        return
+
     article = context[oid]
     article.description = generate_sentences(3)
     article.subtitle = generate_sentence(replace_dots=True)
@@ -91,15 +109,10 @@ def generate_articles(context, num=4):
     logger.debug("News Article '%s' created in section '%s' with genre '%s'" %
                  (title, article.section, article.genre))
 
-    for i in range(num):
-        title = generate_sentence(replace_dots=True)
-        oid = idnormalizer.normalize(title, 'es')
-        description = generate_sentences(2)
-        image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
-        article.invokeFactory('Image', id=oid, title=title,
-                              description=description, image=image)
+    for i in range(images):
+        create_image(article)
 
-    logger.debug("%s images created" % num)
+    logger.debug("Images created")
 
     article.reindexObject()
 
@@ -109,20 +122,24 @@ def generate_articles(context, num=4):
     logger.debug("News Article reindexed and published")
 
 
-def generate_polls(context, num=5):
+def create_poll(context, num=5):
     pass
 
 
-def generate_galeries(context, num=10):
-    """ Creates a News Article with a number of images on it. The News Article
-    will have a title; a subtitle; a resume (made of 3 sentences); a
-    byline; a body text (made of 5 paragraphs); it will be classified with
-    a random genre and section; and it will contain 4 random images.
+def create_gallery(context, images=8):
+    """ Creates a Gallery with a number of images on it. The Gallery will have
+    a title; a resume (made of 3 sentences); it will be classified with a
+    random section; by default and it will contain 8 random images.
     """
     title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
-    context.invokeFactory('openmultimedia.contenttypes.gallery', id=oid,
-                          title=title)
+    try:
+        context.invokeFactory('openmultimedia.contenttypes.gallery', id=oid,
+                              title=title)
+    except:
+        logger.info("An error occurred while creating the object '%s'" % oid)
+        return
+
     gallery = context[oid]
     gallery.description = generate_sentences(3)
     gallery.text = generate_text(1)
@@ -131,15 +148,10 @@ def generate_galeries(context, num=10):
     logger.debug("Gallery '%s' created in section '%s'" %
                  (title, gallery.section))
 
-    for i in range(num):
-        title = generate_sentence(replace_dots=True)
-        oid = idnormalizer.normalize(title, 'es')
-        description = generate_sentences(2)
-        image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
-        gallery.invokeFactory('Image', id=oid, title=title,
-                              description=description, image=image)
+    for i in range(images):
+        create_image(gallery)
 
-    logger.debug("%s images created" % num)
+    logger.debug("Images created")
 
     gallery.reindexObject()
 
@@ -155,12 +167,12 @@ def generate(context):
 
     portal = context.getSite()
     folder = portal['articulos']
-    for i in range(20):
-        generate_articles(folder)
-    logger.info("A batch of 20 articles, with 4 images inside each one, was "
-                "generated and published")
 
+    logger.info("Creating a batch of 20 articles, with 4 images inside each")
+
+    for i in range(20):
+        create_article(folder, 4)
+
+    logger.info("Creating a batch of 5 galleries, with 8 images inside each")
     for i in range(5):
-        generate_galeries(folder)
-    logger.info("A batch of 5 galleries, with 10 images inside each one, was "
-                "generated and published")
+        create_gallery(folder, 8)
