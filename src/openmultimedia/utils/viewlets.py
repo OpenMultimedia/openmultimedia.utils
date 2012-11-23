@@ -13,6 +13,7 @@ from plone.app.layout.navigation.root import getNavigationRoot
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.navigation.interfaces import INavtreeStrategy
 from Products.CMFPlone.browser.navtree import NavtreeQueryBuilder
+from plone.i18n.normalizer import idnormalizer
 
 
 # Local imports
@@ -90,12 +91,24 @@ class SubSectionList(grok.Viewlet):
 
         tab = aq_inner(self.context)
 
+        if hasattr(self.context, 'section') and getattr(self.context, 'portal_type', None) == 'collective.nitf.content':
+            section = self.context.section
+            oid = idnormalizer.normalize(section, 'es')
+            news_folder = getattr(self.context.portal_url, 'noticias', None)
+            if news_folder:
+                tab = getattr(news_folder, oid, None)
+
+        #XXX this should be generalized... this hardcoded cases are so so lame.. sorry
+        # if  getattr(self.context, 'portal_type', None) == 'collective.polls.poll':
+        #     polls_folder = getattr(self.context.portal_url, 'encuestas', None)
+        #     if polls_folder:
+        #         tab = polls_folder
+
         strategy = getMultiAdapter((tab, self.data), INavtreeStrategy)
         queryBuilder = DropdownQueryBuilder(tab)
         query = queryBuilder()
 
         if query['path']['query'] != self.navroot_path:
-            self.data = buildFolderTree(tab, obj=tab, query=query,
-                                        strategy=strategy)
+            self.data = buildFolderTree(tab, obj=tab, query=query, strategy=strategy)
         else:
             self.data = {}
