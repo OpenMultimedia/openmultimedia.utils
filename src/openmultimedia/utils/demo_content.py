@@ -55,6 +55,7 @@ def generate_image(width, height):
 def random_genre(context):
     """ Returns a random value from the AvailableGenres vocabulary.
     """
+    random.seed()
     factory = getUtility(IVocabularyFactory, 'collective.nitf.AvailableGenres')
     v = [t.value for t in factory(context)]
     i = random.randint(0, len(v) - 1)
@@ -64,6 +65,7 @@ def random_genre(context):
 def random_section(context):
     """ Returns a random value from the AvailableSections vocabulary.
     """
+    random.seed()
     factory = getUtility(IVocabularyFactory, 'collective.nitf.AvailableSections')
     v = [t.value for t in factory(context)]
     i = random.randint(0, len(v) - 1)
@@ -83,11 +85,11 @@ def create_image(context):
         return
 
 
-def create_article(context, images=4):
-    """ Creates a News Article with a number of images on it. The News Article
-    will have a title; a subtitle; a resume (made of 3 sentences); a byline; a
-    a body text (made of 5 paragraphs); it will be classified with a random
-    genre and section; by default and it will contain 4 random images.
+def create_article(context):
+    """ Create a News Article with a random number of images on it. The News
+    Article will have a title; a subtitle; a resume (made of 3 sentences); a
+    byline; and body text (made of 5 paragraphs); it will be classified with a
+    random genre and section.
     """
     title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
@@ -109,6 +111,8 @@ def create_article(context, images=4):
     logger.debug("News Article '%s' created in section '%s' with genre '%s'" %
                  (title, article.section, article.genre))
 
+    random.seed()
+    images = random.randint(0, 4)
     for i in range(images):
         create_image(article)
 
@@ -122,14 +126,60 @@ def create_article(context, images=4):
     logger.debug("News Article reindexed and published")
 
 
-def create_poll(context, num=5):
-    pass
+def set_options(options):
+    """ Modify the options to match the way they are stored in a poll.
+    """
+    tmp = []
+    for (index, option) in enumerate(options):
+        data = {}
+        data['option_id'] = index
+        data['description'] = option
+        tmp.append(data)
+    return tmp
 
 
-def create_gallery(context, images=8):
-    """ Creates a Gallery with a number of images on it. The Gallery will have
-    a title; a resume (made of 3 sentences); it will be classified with a
-    random section; by default and it will contain 8 random images.
+def create_poll(context):
+    """ Create a Poll with 3 options on it; each option is given a random
+    number of votes.
+    """
+    title = generate_sentence(replace_dots=True)
+    oid = idnormalizer.normalize(title, 'es')
+    try:
+        context.invokeFactory('collective.polls.poll', id=oid, title=title)
+    except:
+        logger.info("An error occurred while creating the object '%s'" % oid)
+        return
+
+    poll = context[oid]
+    poll.description = generate_sentences(3)
+    options = [generate_sentence(replace_dots=True),
+               generate_sentence(replace_dots=True),
+               generate_sentence(replace_dots=True)]
+
+    poll.options = set_options(options)
+
+    random.seed()
+    votes = random.sample(xrange(10000), 3)
+
+    poll.annotations['option.00'], \
+    poll.annotations['option.01'], \
+    poll.annotations['option.02'] = votes
+
+    logger.debug("Poll '%s' created" % title)
+
+    poll.reindexObject()
+
+    workflowTool = getToolByName(context, 'portal_workflow')
+    workflowTool.doActionFor(poll, 'open')
+    workflowTool.doActionFor(poll, 'close')
+
+    logger.debug("Poll reindexed, published and closed")
+
+
+def create_gallery(context):
+    """ Create a Gallery with a random number of images on it. The Gallery
+    will have a title; a resume (made of 3 sentences); and it will be
+    classified with a random section.
     """
     title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
@@ -148,6 +198,8 @@ def create_gallery(context, images=8):
     logger.debug("Gallery '%s' created in section '%s'" %
                  (title, gallery.section))
 
+    random.seed()
+    images = random.randint(4, 10)
     for i in range(images):
         create_image(gallery)
 
@@ -166,13 +218,18 @@ def generate(context):
         return
 
     portal = context.getSite()
-    folder = portal['articulos']
 
-    logger.info("Creating a batch of 20 articles, with 4 images inside each")
+    logger.info("Creating a batch of 30 articles")
 
-    for i in range(20):
-        create_article(folder, 4)
+    for i in range(30):
+        create_article(portal['articulos'])
 
-    logger.info("Creating a batch of 5 galleries, with 8 images inside each")
+    logger.info("Creating a batch of 5 galleries")
     for i in range(5):
-        create_gallery(folder, 8)
+        create_gallery(portal['articulos'])
+
+    logger.info("Creating a batch of 10 polls")
+    for i in range(10):
+        create_poll(portal['encuestas'])
+
+    logger.info("Demo content successfully created")
