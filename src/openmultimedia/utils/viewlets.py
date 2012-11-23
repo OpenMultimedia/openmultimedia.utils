@@ -6,7 +6,14 @@ from Acquisition import aq_inner
 from five import grok
 
 # Plone imports
+from plone.app.portlets.portlets.navigation import Assignment
 from plone.app.layout.viewlets.interfaces import IPortalFooter
+from plone.app.layout.viewlets.interfaces import IPortalHeader
+from plone.app.layout.navigation.root import getNavigationRoot
+from plone.app.layout.navigation.navtree import buildFolderTree
+from plone.app.layout.navigation.interfaces import INavtreeStrategy
+from Products.CMFPlone.browser.navtree import NavtreeQueryBuilder
+
 
 # Local imports
 from Products.CMFCore.utils import getToolByName
@@ -55,3 +62,40 @@ class OpenMultimediaFooter(grok.Viewlet):
 
             footer.append((i, subsections))
         return footer
+
+
+class DropdownQueryBuilder(NavtreeQueryBuilder):
+    """Build a folder tree query suitable for a dropdownmenu"""
+
+    def __init__(self, context):
+        NavtreeQueryBuilder.__init__(self, context)
+        portal_path = context.portal_url.getPortalObject().getPhysicalPath()
+        portal_len = len(portal_path)
+        context_url = context.getPhysicalPath()
+        self.query['path'] = {'query': '/'.join(context_url[:(portal_len + 1)]),
+                              'navtree_start': 1,
+                              'depth': 2}
+
+
+class SubSectionList(grok.Viewlet):
+    grok.context(Interface)
+    grok.name(u"openmultimedia.subsection")
+    grok.require("zope2.View")
+    grok.template("sub_section_list")
+    grok.viewletmanager(IPortalHeader)
+
+    def update(self):
+        self.navroot_path = getNavigationRoot(self.context)
+        self.data = Assignment(root=self.navroot_path)
+
+        tab = aq_inner(self.context)
+
+        strategy = getMultiAdapter((tab, self.data), INavtreeStrategy)
+        queryBuilder = DropdownQueryBuilder(tab)
+        query = queryBuilder()
+
+        if query['path']['query'] != self.navroot_path:
+            self.data = buildFolderTree(tab, obj=tab, query=query,
+                                        strategy=strategy)
+        else:
+            self.data = {}
