@@ -1,11 +1,14 @@
 # convenience makefile to boostrap & run buildout
 # use `make options=-v` to run buildout with extra options
 
-pep8_ignores = E501
 options = -N -q -t 3
+pep8_ignores = E501
+src = src/openmultimedia/utils/
+minimum_coverage = 37
 
 prerequisites:
-	sudo apt-get install -qq pep8 pyflakes
+	sudo apt-get install -q pep8 pyflakes
+	pip install -q createzopecoverage
 	mkdir -p buildout-cache/downloads
 
 install: prerequisites
@@ -14,5 +17,6 @@ install: prerequisites
 
 tests:
 	bin/test
-	pyflakes src/openmultimedia/utils/
-	pep8 --ignore=$(pep8_ignores) src/openmultimedia/utils/
+	pep8 --ignore=$(pep8_ignores) $(src)
+	pyflakes $(src)
+	./coverage.sh $(minimum_coverage)
