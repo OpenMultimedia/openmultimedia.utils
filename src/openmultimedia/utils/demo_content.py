@@ -222,11 +222,17 @@ def generate(context):
     logger.info("Creating a batch of 30 articles")
 
     for i in range(30):
-        create_article(portal['articulos'])
+        try:  # add uggly workaround until we get rid of 'Artículos' folder
+            create_article(portal['articulos'])
+        except KeyError:
+            create_article(portal['noticias'])
 
     logger.info("Creating a batch of 5 galleries")
     for i in range(5):
-        create_gallery(portal['articulos'])
+        try:  # add uggly workaround until we get rid of 'Artículos' folder
+            create_gallery(portal['articulos'])
+        except KeyError:
+            create_gallery(portal['noticias'])
 
     logger.info("Creating a batch of 10 polls")
     for i in range(10):
