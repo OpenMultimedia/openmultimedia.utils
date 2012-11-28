@@ -50,6 +50,9 @@ class FooterViewletTest(unittest.TestCase):
         self.assertTrue(sections[0][1][0][0] == 'Sub Folder 1')
         self.assertTrue(sections[0][1][1][0] == 'Sub Folder 2')
 
+    @unittest.expectedFailure
+    def test_util_links_viewlet(self):
+        self.fail(NotImplemented)
 
 class FooterFunctionalTest(unittest.TestCase):
 

@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
+
 # Zope imports
+from AccessControl import getSecurityManager
+
 from zope.interface import Interface
 from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.schema import TextLine
+from zope.schema import List
+from zope.schema import DottedName
 from Acquisition import aq_inner
 from five import grok
 
 # Plone imports
 from plone.app.portlets.portlets.navigation import Assignment
+from plone.app.layout.viewlets import ViewletBase
 from plone.app.layout.viewlets.interfaces import IPortalFooter
 from plone.app.layout.viewlets.interfaces import IPortalHeader
 from plone.app.layout.navigation.root import getNavigationRoot
@@ -15,9 +23,11 @@ from plone.app.layout.navigation.interfaces import INavtreeStrategy
 from Products.CMFPlone.browser.navtree import NavtreeQueryBuilder
 from plone.i18n.normalizer import idnormalizer
 
+from plone.registry.interfaces import IRegistry
 
 # Local imports
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 grok.templatedir("viewlets")
@@ -112,3 +122,112 @@ class SubSectionList(grok.Viewlet):
             self.data = buildFolderTree(tab, obj=tab, query=query, strategy=strategy)
         else:
             self.data = {}
+
+
+class IUtilLinks(Interface):
+    """ Interface for the links registry
+    """
+    links = List(title=u"Links",
+                 value_type=DottedName(title=u"Links ID"))
+
+
+class IUtilLink(Interface):
+    """ Interface for each link
+    """
+
+    text = TextLine(title=u"Text",
+                    description=u"The text you want the link to show")
+    uri = TextLine(title=u"URI",
+                   description=u"The URI where the link redirects. Use "
+                               "{portal}/ at the beginning to replace it "
+                               "with the site root or {relative}/ to make "
+                               "it relative to context.")
+    css = TextLine(title=u"CSS",
+                   description=u"additional css clases you want to be "
+                               "rendered")
+    condition = TextLine(title=u"Condition",
+                         description=u"A condition that needs to be true "
+                                     "in order for the link to be rendered")
+    permission = TextLine(title=u"Permission",
+                          description=u"A permission the current user should "
+                                      "have, so the link will be rendered.")
+
+
+class OpenMultimediaUtilLinks(ViewletBase):
+    """ This viewlet will render a list of links stored in the registry
+    """
+
+    index = ViewPageTemplateFile('viewlets/utillinks.pt')
+
+    def get_links(self):
+        """ Here we get the links from the registry
+        """
+
+        registry = getUtility(IRegistry)
+        try:
+            linksregistry = registry.forInterface(IUtilLinks)
+        except KeyError:
+            linksregistry = None
+
+        links = []
+        if linksregistry:
+            for link_id in linksregistry.links:
+                links.append(registry.forInterface(IUtilLink, prefix=link_id))
+
+        return links
+
+    def should_render(self, link):
+        """ This method will evaluate the condition for the link.
+        It returns True if there's no condition
+        """
+
+        pm = getToolByName(self.context, 'portal_membership')
+
+        context = self.context
+        context  # PyFlakes
+        request = self.request
+        request  # PyFlakes
+        portal = self.context.portal_url.getPortalObject()
+        portal  # PyFlakes
+        auth_member = pm.getAuthenticatedMember()
+        auth_member  # PyFlakes
+        if pm.isAnonymousUser() == 0:
+            is_anon = False
+        else:
+            is_anon = True
+        is_anon  # PyFlakes
+
+        result = True
+        if link.condition is not None:
+            result = eval(link.condition)
+
+        return result
+
+    def is_member_allowed(self, link):
+        """ This method will check if the current member
+        has the requested permission.
+        If no permission was requested, then return True
+        """
+        result = True
+        if link.permission is not None:
+            sm = getSecurityManager()
+            allowed = sm.checkPermission(link.permission, self.context)
+            if allowed is None or allowed == 0:
+                result = False
+
+        return result
+
+    def get_href(self, link):
+        if link.uri.startswith('{portal}'):
+            portal_obj = self.context.portal_url.getPortalObject()
+            portal_url = portal_obj.absolute_url()
+            href = "%s/%s" % (portal_url, link.uri[9:])
+
+        elif link.uri.startswith('{relative}'):
+            context_url = self.context.absolute_url()
+            href = "%s/%s" % (context_url, link.uri[11:])
+
+        else:
+            href = link.uri
+
+        return href

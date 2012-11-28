@@ -1,0 +1,13 @@
+<div id="openmultimedia-util-links">
+    <tal:links repeat="link view/get_links" >
+        <tal:link_condition condition="python:view.should_render(link)" >
+            <tal:link_permission condition="python:view.is_member_allowed(link)" >
+                <div tal:attributes="class link/css">
+                    <a href="#"
+                       tal:attributes="href python:view.get_href(link)"
+                       tal:content="link/text" />
+                </div>
+            </tal:link_permission>
+        </tal:link_condition>
+    </tal:links>
+</div>
