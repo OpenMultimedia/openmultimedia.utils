@@ -217,17 +217,18 @@ class OpenMultimediaUtilLinks(ViewletBase):
 
         return result
 
-    def get_href(self, link):
-        if link.uri.startswith('{portal}'):
-            portal_obj = self.context.portal_url.getPortalObject()
-            portal_url = portal_obj.absolute_url()
-            href = "%s/%s" % (portal_url, link.uri[9:])
+    def get_uri(self, link):
+        if link.uri is not None:
+            if link.uri.startswith('{portal}'):
+                portal_obj = self.context.portal_url.getPortalObject()
+                portal_url = portal_obj.absolute_url()
+                uri = "%s/%s" % (portal_url, link.uri[9:])
 
-        elif link.uri.startswith('{relative}'):
-            context_url = self.context.absolute_url()
-            href = "%s/%s" % (context_url, link.uri[11:])
+            elif link.uri.startswith('{relative}'):
+                context_url = self.context.absolute_url()
+                uri = "%s/%s" % (context_url, link.uri[11:])
 
-        else:
-            href = link.uri
+            else:
+                uri = link.uri
 
-        return href
+            return uri

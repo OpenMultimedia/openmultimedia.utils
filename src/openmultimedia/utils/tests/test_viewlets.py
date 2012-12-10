@@ -54,6 +54,7 @@ class FooterViewletTest(unittest.TestCase):
     def test_util_links_viewlet(self):
         self.fail(NotImplemented)
 
+
 class FooterFunctionalTest(unittest.TestCase):
 
     layer = FUNCTIONAL_TESTING
