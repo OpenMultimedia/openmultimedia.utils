@@ -213,9 +213,9 @@ def generate(context):
 
     portal = context.getSite()
 
-    logger.info("Creating a batch of 30 articles")
+    logger.info("Creating a batch of 40 articles")
 
-    for i in range(30):
+    for i in range(40):
         try:  # add uggly workaround until we get rid of 'Artículos' folder
             create_article(portal['articulos'])
         except KeyError:
