@@ -188,7 +188,7 @@ def create_default_section_link(context,
     """
     if not hasattr(context, 'default'):
         context.invokeFactory('Link', id='default',
-                             title=u'Página por defecto',
-                             remoteUrl=remoteUrl, excludeFromNav=True)
+                              title=u'Página por defecto',
+                              remoteUrl=remoteUrl, excludeFromNav=True)
         context.setLayout('default')
         logger.info('Default view for %s was created' % context.Title())

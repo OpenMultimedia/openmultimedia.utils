@@ -14,6 +14,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 from Products.CMFCore.utils import getToolByName
 
+from plone.app.textfield.value import RichTextValue
 from plone.i18n.normalizer import idnormalizer
 
 from openmultimedia.utils.config import PROJECTNAME
@@ -103,7 +104,7 @@ def create_article(context):
     article.description = generate_sentences(3)
     article.subtitle = generate_sentence(replace_dots=True)
     article.byline = generate_sentence(replace_dots=True)
-    article.text = generate_text()
+    article.text = RichTextValue(raw=generate_text())
     article.genre = random_genre(context)
     article.section = random_section(context)
     article.location = generate_sentence(replace_dots=True)
@@ -160,8 +161,8 @@ def create_poll(context):
     votes = random.sample(xrange(1000), 3)
 
     poll.annotations['option.00'], \
-    poll.annotations['option.01'], \
-    poll.annotations['option.02'] = votes
+        poll.annotations['option.01'], \
+        poll.annotations['option.02'] = votes
 
     logger.debug("Poll '%s' created" % title)
 
@@ -188,7 +189,7 @@ def create_gallery(context):
 
     gallery = context[oid]
     gallery.description = generate_sentences(3)
-    gallery.text = generate_text(1)
+    gallery.text = RichTextValue(raw=generate_text(1))
     gallery.section = random_section(context)
 
     logger.debug("Gallery '%s' created in section '%s'" %

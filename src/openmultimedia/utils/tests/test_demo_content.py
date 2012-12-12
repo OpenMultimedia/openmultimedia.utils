@@ -6,7 +6,7 @@ from openmultimedia.utils.demo_content import (
     generate_sentence,
     generate_sentences,
     generate_paragraphs,
-    )
+)
 
 from openmultimedia.utils.testing import INTEGRATION_TESTING
 

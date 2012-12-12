@@ -32,11 +32,11 @@ FIXTURE = Fixture()
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,),
     name='openmultimedia.utils:Integration',
-    )
+)
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE,),
     name='openmultimedia.utils:Functional',
-    )
+)
 
 
 def browserLogin(portal, browser, username=None, password=None):

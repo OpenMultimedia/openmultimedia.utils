@@ -12,11 +12,8 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 
 from openmultimedia.utils.setuphandlers import (
-#    create_default_section_link,
     create_menu_item,
-#    create_section,
-#    set_one_state_workflow_policy,
-    )
+)
 
 from openmultimedia.utils.config import PROJECTNAME
 from openmultimedia.utils.testing import INTEGRATION_TESTING
