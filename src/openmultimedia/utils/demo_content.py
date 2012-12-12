@@ -118,12 +118,10 @@ def create_article(context):
 
     logger.debug("Images created")
 
-    article.reindexObject()
-
     workflowTool = getToolByName(context, 'portal_workflow')
     workflowTool.doActionFor(article, 'publish')
 
-    logger.debug("News Article reindexed and published")
+    logger.debug("News Article published")
 
 
 def set_options(options):
@@ -167,13 +165,11 @@ def create_poll(context):
 
     logger.debug("Poll '%s' created" % title)
 
-    poll.reindexObject()
-
     workflowTool = getToolByName(context, 'portal_workflow')
     workflowTool.doActionFor(poll, 'open')
     workflowTool.doActionFor(poll, 'close')
 
-    logger.debug("Poll reindexed, published and closed")
+    logger.debug("Poll opened and closed")
 
 
 def create_gallery(context):
@@ -205,12 +201,10 @@ def create_gallery(context):
 
     logger.debug("Images created")
 
-    gallery.reindexObject()
-
     workflowTool = getToolByName(context, 'portal_workflow')
     workflowTool.doActionFor(gallery, 'publish')
 
-    logger.debug("Gallery reindexed and published")
+    logger.debug("Gallery published")
 
 
 def generate(context):
@@ -237,5 +231,10 @@ def generate(context):
     logger.info("Creating a batch of 10 polls")
     for i in range(10):
         create_poll(portal['encuestas'])
+
+    catalog = getattr(portal, 'portal_catalog')
+    if catalog is not None:
+        catalog.refreshCatalog()
+        logger.debug("Catalog was reindexed")
 
     logger.info("Demo content successfully created")
