@@ -157,7 +157,7 @@ def create_poll(context):
     poll.options = set_options(options)
 
     random.seed()
-    votes = random.sample(xrange(10000), 3)
+    votes = random.sample(xrange(1000), 3)
 
     poll.annotations['option.00'], \
     poll.annotations['option.01'], \
