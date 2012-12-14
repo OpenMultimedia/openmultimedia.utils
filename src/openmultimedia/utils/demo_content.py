@@ -233,7 +233,7 @@ def generate(context):
     for i in range(10):
         create_poll(portal['encuestas'])
 
-    catalog = getToolByName(context, 'portal_catalog')
+    catalog = getToolByName(portal, 'portal_catalog')
     if catalog is not None:
         catalog.refreshCatalog()
         logger.info("Catalog was reindexed")
