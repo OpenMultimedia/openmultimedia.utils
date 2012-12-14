@@ -233,9 +233,9 @@ def generate(context):
     for i in range(10):
         create_poll(portal['encuestas'])
 
-    catalog = getattr(portal, 'portal_catalog')
+    catalog = getToolByName(context, 'portal_catalog')
     if catalog is not None:
         catalog.refreshCatalog()
-        logger.debug("Catalog was reindexed")
+        logger.info("Catalog was reindexed")
 
     logger.info("Demo content successfully created")
