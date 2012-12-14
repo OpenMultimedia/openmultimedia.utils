@@ -19,10 +19,13 @@ from plone.i18n.normalizer import idnormalizer
 
 from openmultimedia.utils.config import PROJECTNAME
 
-logger = logging.getLogger(PROJECTNAME)
-
+NITF_BATCH_SIZE = 40
+GALLERY_BATCH_SIZE = 5
+POLL_BATCH_SIZE = 10
 IMAGE_WIDTH = 1024
 IMAGE_HEIGHT = 768
+
+logger = logging.getLogger(PROJECTNAME)
 
 
 def generate_sentence(replace_dots=False):
@@ -214,23 +217,22 @@ def generate(context):
 
     portal = context.getSite()
 
-    logger.info("Creating a batch of 40 articles")
-
-    for i in range(40):
+    logger.info("Creating a batch of %s articles" % NITF_BATCH_SIZE)
+    for i in range(NITF_BATCH_SIZE):
         try:  # add uggly workaround until we get rid of 'Artículos' folder
             create_article(portal['articulos'])
         except KeyError:
             create_article(portal['noticias'])
 
-    logger.info("Creating a batch of 5 galleries")
-    for i in range(5):
+    logger.info("Creating a batch of %s galleries" % GALLERY_BATCH_SIZE)
+    for i in range(GALLERY_BATCH_SIZE):
         try:  # add uggly workaround until we get rid of 'Artículos' folder
             create_gallery(portal['articulos'])
         except KeyError:
             create_gallery(portal['noticias'])
 
-    logger.info("Creating a batch of 10 polls")
-    for i in range(10):
+    logger.info("Creating a batch of %s polls" % POLL_BATCH_SIZE)
+    for i in range(POLL_BATCH_SIZE):
         create_poll(portal['encuestas'])
 
     catalog = getToolByName(portal, 'portal_catalog')
