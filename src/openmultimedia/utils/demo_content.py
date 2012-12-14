@@ -219,17 +219,11 @@ def generate(context):
 
     logger.info("Creating a batch of %s articles" % NITF_BATCH_SIZE)
     for i in range(NITF_BATCH_SIZE):
-        try:  # add uggly workaround until we get rid of 'Artículos' folder
-            create_article(portal['articulos'])
-        except KeyError:
-            create_article(portal['noticias'])
+        create_article(portal['noticias'])
 
     logger.info("Creating a batch of %s galleries" % GALLERY_BATCH_SIZE)
     for i in range(GALLERY_BATCH_SIZE):
-        try:  # add uggly workaround until we get rid of 'Artículos' folder
-            create_gallery(portal['articulos'])
-        except KeyError:
-            create_gallery(portal['noticias'])
+        create_gallery(portal['noticias'])
 
     logger.info("Creating a batch of %s polls" % POLL_BATCH_SIZE)
     for i in range(POLL_BATCH_SIZE):
