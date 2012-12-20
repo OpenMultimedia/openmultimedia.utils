@@ -80,8 +80,8 @@ def create_image(context):
     title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
     description = generate_sentences(2)
-    image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
     try:
+        image = generate_image(IMAGE_WIDTH, IMAGE_HEIGHT)
         context.invokeFactory('Image', id=oid, title=title,
                               description=description, image=image)
     except:
