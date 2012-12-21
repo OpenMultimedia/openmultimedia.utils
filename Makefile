@@ -4,7 +4,7 @@
 options = -N -q -t 3
 pep8_ignores = E501
 src = src/openmultimedia/utils/
-minimum_coverage = 37
+minimum_coverage = 41
 
 prerequisites:
 	sudo apt-get install -q pep8 pyflakes
