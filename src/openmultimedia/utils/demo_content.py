@@ -51,6 +51,18 @@ def generate_text(num=5):
     return u'\n'.join(["<p>%s</p>" % p[2] for p in g.generate_paragraphs(num)])
 
 
+def generate_keywords(max=5):
+    """ Return a list of up to max keywords.
+    """
+    g = loremipsum.Generator()
+    keywords = g.generate_sentence()[2].split()
+    i = len(keywords) - 1  # just get rid of the last word
+    i = max if i > max else i
+    random.seed()
+    i = random.randint(0, i)  # random number between 0 and max
+    return [k for k in keywords[:i]]
+
+
 def generate_image(width, height):
     url = 'http://lorempixel.com/%d/%d/' % (width, height)
     return urllib2.urlopen(url).read()
@@ -93,7 +105,8 @@ def create_article(context):
     """ Create a News Article with a random number of images on it. The News
     Article will have a title; a subtitle; a resume (made of 3 sentences); a
     byline; and body text (made of 5 paragraphs); it will be classified with a
-    random genre and section.
+    random genre and section; a location and a set of random keywords will be
+    added also.
     """
     title = generate_sentence(replace_dots=True)
     oid = idnormalizer.normalize(title, 'es')
@@ -111,6 +124,7 @@ def create_article(context):
     article.genre = random_genre(context)
     article.section = random_section(context)
     article.location = generate_sentence(replace_dots=True)
+    article.setSubject(generate_keywords())
 
     logger.debug("News Article '%s' created in section '%s' with genre '%s'" %
                  (title, article.section, article.genre))

@@ -16,15 +16,24 @@ class Fixture(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
+        import collective.nitf
+        self.loadZCML(package=collective.nitf)
         import openmultimedia.utils
         self.loadZCML(package=openmultimedia.utils)
         # Install product and call its initialize() function
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
 
     def setUpPloneSite(self, portal):
+        # Install into Plone site using portal_setup
+        self.applyProfile(portal, 'collective.nitf:default')
+
         # Set default workflow chains for tests
         wf = portal['portal_workflow']
-        types = ('Collection', 'Folder')
+        types = (
+            'collective.nitf.content',
+            'Collection',
+            'Folder',
+        )
         wf.setChainForPortalTypes(types, 'simple_publication_workflow')
 
 
