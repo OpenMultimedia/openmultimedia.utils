@@ -97,7 +97,7 @@ class SubSectionList(grok.Viewlet):
 
     def update(self):
         self.navroot_path = getNavigationRoot(self.context)
-        self.data = Assignment(root=self.navroot_path)
+        self.data = {}
 
         tab = aq_inner(self.context)
 
@@ -114,14 +114,16 @@ class SubSectionList(grok.Viewlet):
         #     if polls_folder:
         #         tab = polls_folder
 
-        strategy = getMultiAdapter((tab, self.data), INavtreeStrategy)
+        if not tab:
+            return
+
+        strategy = getMultiAdapter((tab, Assignment(root=self.navroot_path)),
+                                   INavtreeStrategy)
         queryBuilder = DropdownQueryBuilder(tab)
         query = queryBuilder()
 
         if query['path']['query'] != self.navroot_path:
             self.data = buildFolderTree(tab, obj=tab, query=query, strategy=strategy)
-        else:
-            self.data = {}
 
 
 class IUtilLinks(Interface):
