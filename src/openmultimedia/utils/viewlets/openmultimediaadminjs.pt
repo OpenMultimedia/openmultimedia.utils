@@ -1,0 +1,12 @@
+<script type="text/javascript" src="#"  tal:attributes="src view/js"/>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#openmultimedia-util-links .upload-multimedia").click(function(e) {
+    	e.preventDefault();
+    	console.log($("#openmultimedia-admin-container"));
+    	OMAdmin.setup({id:'openmultimedia-admin-container'});
+    	return false;
+    });
+});
+</script>
+<div id="openmultimedia-admin-container"></div>

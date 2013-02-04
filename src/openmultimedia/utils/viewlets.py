@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from datetime import datetime, timedelta
+import hashlib
 # Zope imports
 from AccessControl import getSecurityManager
 
@@ -234,3 +235,43 @@ class OpenMultimediaUtilLinks(ViewletBase):
                 uri = link.uri
 
             return uri
+
+
+class IMultimediaAdminJS(Interface):
+    """ Interface for the the multimedia admin js
+    """
+    url = TextLine(title=u"url",
+                   description=u"The url of the javascript forthe multimedia admin")
+
+    path = TextLine(title=u"path",
+                    description=u"path to the multimedia admin")
+
+    secret = TextLine(title=u"secret key",
+                      description=u"secret key to be able to connect to the multimedia admin")
+
+
+class OpenMultimediaAdminJS(ViewletBase):
+    """ This viewlet will render the js that connects to the admin interface for openmultimedia
+    """
+
+    index = ViewPageTemplateFile('viewlets/openmultimediaadminjs.pt')
+
+    def js(self):
+        """ Here we get the links from the registry
+        """
+        registry = getUtility(IRegistry)
+        try:
+            urlregistry = registry.forInterface(IMultimediaAdminJS)
+        except KeyError:
+            urlregistry = None
+        js_url = ""
+        if urlregistry and urlregistry.url and urlregistry.secret and urlregistry.path:
+            js_url = urlregistry.url
+            secret = urlregistry.secret
+            path = urlregistry.path
+            user = self.context.portal_membership.getAuthenticatedMember().getUserName()
+            expire = (datetime.now() + timedelta(seconds=60)).strftime("%s")
+            st = hashlib.md5('%s%s%s' % (secret, path, expire)).hexdigest()
+            user_key = hashlib.md5('%s%s' % (user, secret)).hexdigest()
+            js_url += '?st=%s&e=%s&user=%s&user_key=%s' % (st, expire, user, user_key)
+        return js_url

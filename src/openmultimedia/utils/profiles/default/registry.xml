@@ -1,0 +1,3 @@
+<registry>
+ <records interface="openmultimedia.utils.viewlets.IMultimediaAdminJS" />
+</registry>
