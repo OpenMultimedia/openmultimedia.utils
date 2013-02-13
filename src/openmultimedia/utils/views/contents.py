@@ -83,7 +83,7 @@ class MyContentsView(grok.View):
         return self.context.absolute_url() + "/contents_view"
 
     def is_editor(self):
-        return self._checkPermInFolder("zope2.ViewManagementScreens")
+        return self._checkPermInFolder("cmf.AddPortalContent")
 
     def get_contents(self, filters=None):
         collectionobj = self.context
