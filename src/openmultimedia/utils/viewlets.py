@@ -102,7 +102,11 @@ class SubSectionList(grok.Viewlet):
 
         tab = aq_inner(self.context)
 
-        if hasattr(self.context, 'section') and getattr(self.context, 'portal_type', None) == 'collective.nitf.content':
+        portal_type = getattr(self.context, 'portal_type', None)
+
+        if hasattr(self.context, 'section') and (portal_type == 'collective.nitf.content' or
+                                                 portal_type == 'openmultimedia.contenttypes.gallery'):
+
             section = self.context.section
             oid = idnormalizer.normalize(section, 'es')
             news_folder = getattr(self.context.portal_url, 'noticias', None)
